@@ -16,7 +16,7 @@ llm = ChatGroq(
     max_retries= 2
 )
 
-st.title("PDF Analyzer Tool")
+st.title("AskMe Tool")
 st.caption("Feel free to ask any questions regarding to the provided pdf to this tool")
 
 uploaded_file = st.file_uploader("Upload a pdf file", type=["pdf","docx"])
