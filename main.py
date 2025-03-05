@@ -19,7 +19,7 @@ llm = ChatGroq(
 st.title("AskMe Tool")
 st.caption("Feel free to ask any questions regarding to the provided pdf to this tool")
 
-uploaded_file = st.file_uploader("Upload a pdf file", type=["pdf","docx"])
+uploaded_file = st.file_uploader("Upload a pdf file", type=["pdf"])
 
 if uploaded_file is not None:
     with open("temp_uploaded_file.pdf", "wb") as f:
