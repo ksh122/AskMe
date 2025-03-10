@@ -25,34 +25,31 @@ if uploaded_file is not None:
     with open("temp_uploaded_file.pdf", "wb") as f:
         f.write(uploaded_file.read())
 
-    loader = PyPDFLoader("temp_uploaded_file.pdf", extract_images=True)
-    st.spinner(text="Loading Document...")
-    docs = loader.load()
+    with st.spinner("Loading Document..."):
+        loader = PyPDFLoader("temp_uploaded_file.pdf", extract_images=True)
+        docs = loader.load()
     st.spinner(text="Document uploaded")
     
-    text_splitters = RecursiveCharacterTextSplitter(
-        separators=[
-            "\n\n",
-            "\n",
-            ".",
-            " "
-        ],
-        chunk_size= 400,
-        chunk_overlap = 20
-    )
-    st.spinner(text="Splitting Text...")
-    doc = text_splitters.split_documents(docs)
+    with st.spinner("Splitting Text..."):
+        text_splitter = RecursiveCharacterTextSplitter(
+            separators=["\n\n", "\n", ".", " "],
+            chunk_size=500,
+            chunk_overlap=20
+        )
+        doc = text_splitter.split_documents(docs)
     
-    embeddings = HuggingFaceEmbeddings()
-    st.spinner(text="Retrieving Data...")
-    vector_store = FAISS.from_documents(doc, embeddings)
-    st.spinner(text="Retrieving Data from DataStore...")
-    retriever = VectorStoreRetriever(vectorstore= vector_store)
+    with st.spinner("Embedding Data..."):
+        embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+        vector_store = FAISS.from_documents(doc, embeddings)
 
-    retrievalQA = RetrievalQA.from_llm(llm= llm, retriever = retriever)
+    with st.spinner("Creating Retriever..."):
+        retriever = vector_store.as_retriever()
+
+    retrievalQA = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
 
     query = st.text_area("Enter your Question here")
     
     if query:
-        result = retrievalQA({"query": query}, return_only_outputs = True)['result']
-        st.text_area("Result here" , result)
+        with st.spinner("Retrieving Answer..."):
+            result = retrievalQA({"query": query})['result']
+        st.text_area("Answer:", result)
