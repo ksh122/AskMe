@@ -9,3 +9,5 @@ torch
 transformers
 sentence-transformers
 rapidocr-onnxruntime
+Pillow
+rapidocr-onnxruntime

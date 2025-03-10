@@ -26,7 +26,7 @@ if uploaded_file is not None:
         f.write(uploaded_file.read())
 
     with st.spinner("Loading Document..."):
-        loader = PyMuPDFLoader("temp_uploaded_file.pdf", extract_images=True)
+        loader = PyMuPDFLoader("temp_uploaded_file.pdf", extract_images=False)
         docs = loader.load()
     st.spinner(text="Document uploaded")
     
