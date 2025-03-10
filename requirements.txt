@@ -4,7 +4,7 @@ langchain-community
 langchain-huggingface
 langchain-groq
 faiss-cpu
-pypdf
+pymupdf
 torch
 transformers
 sentence-transformers
