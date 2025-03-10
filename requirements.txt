@@ -10,4 +10,8 @@ faiss-cpu
 libmagic
 openai
 sentence-transformers
+pytesseract
+pdf2image
+poppler-utils
+
 
