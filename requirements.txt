@@ -8,3 +8,4 @@ pypdf
 torch
 transformers
 sentence-transformers
+rapidocr-onnxruntime
